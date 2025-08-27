@@ -177,6 +177,8 @@ Please build it first:  $0 build"
   docker run -it -p11434:11434 --rm -v "$VOLUME_NAME":/root/.ollama \
         --device=/dev/dri:/dev/dri \
         --device=/dev/accel/accel0 \
+        -e OLLAMA_INTEL_GPU=1 \
+        -e OLLAMA_DEBUG=1 \
         "$(image_ref)"
 # for non-root add
 #        --group-add="$(stat -c '%g' /dev/dri/render* | head -n1)" \
