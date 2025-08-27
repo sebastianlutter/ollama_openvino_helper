@@ -11,7 +11,7 @@ RUN add-apt-repository ppa:deadsnakes/ppa \
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
     ca-certificates curl wget gnupg git gcc g++ libtbb12\
-    libtbb-dev libze1 clinfo && \
+    libtbb-dev clinfo && \
     rm -rf /var/lib/apt/lists/*
 
 # --- NPU user-mode drivers (UMD) inside the image ---
@@ -34,9 +34,10 @@ ENV PATH=/usr/local/go/bin:$PATH
 
 RUN wget https://storage.openvinotoolkit.org/repositories/openvino_genai/packages/2025.2/linux/openvino_genai_ubuntu24_2025.2.0.0_x86_64.tar.gz
 RUN tar -xzf openvino_genai_ubuntu24_2025.2.0.0_x86_64.tar.gz
-ENV GENAI_DIR=/home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0.dev20250513_x86_64
 
-RUN source /home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0.x86_64/setupvars.sh
+ENV GENAI_DIR=/home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0_x86_64
+ARG GENAI_DIR=/home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0_x86_64
+RUN source ${GENAI_DIR}/setupvars.sh
 
 ENV CGO_ENABLED=1
 ENV GODEBUG=cgocheck=0
@@ -54,4 +55,4 @@ ENV OLLAMA_INTEL_GPU=1
 
 ENV OLLAMA_HOST=0.0.0.0:11434
 EXPOSE 11434
-ENTRYPOINT ["/bin/bash", "-c", "source /home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0.dev20250513_x86_64/setupvars.sh && /bin/bash "]
+ENTRYPOINT ["/bin/bash", "-c", "source ${GENAI_DIR}/setupvars.sh && /bin/bash "]
