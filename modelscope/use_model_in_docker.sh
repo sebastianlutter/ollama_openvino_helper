@@ -87,9 +87,15 @@ docker cp "$MODELFILE_PATH" "$CONTAINER:$DEST/$ALIAS/"
 # --- create model inside container ---
 # Use bash -lc so we can 'source' if present; harmless if not.
 CREATE_CMD=$(cat <<EOF
-set -Eeuo pipefail
-if [ -f /opt/intel/openvino/setupvars.sh ]; then source /opt/intel/openvino/setupvars.sh || true; fi
+set -Ee -o pipefail
+# Temporarily disable 'nounset' for setupvars.sh (it references an unset var in some builds)
+set +u
+source /home/ollama_ov_server/openvino_genai_ubuntu24_2025.2.0.0.dev20250513_x86_64/setupvars.sh || true
+set -u
+
+# Talking to the already-running server; OLLAMA_HOST not strictly needed, but harmless:
 export OLLAMA_HOST="127.0.0.1:11434"
+
 cd "$DEST/$ALIAS"
 echo "Running: ollama create $ALIAS -f Modelfile"
 ollama create "$ALIAS" -f Modelfile
@@ -112,6 +118,5 @@ EOF
 fi
 
 echo
-echo "✅ Done. You can now use the model from your host, e.g.:"
+echo "Done. You can now use the model from your host, e.g.:"
 echo "  curl http://localhost:11434/api/generate -d '{\"model\":\"$ALIAS\",\"prompt\":\"Hello\"}'"
-
