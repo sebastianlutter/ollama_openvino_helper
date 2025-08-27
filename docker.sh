@@ -174,7 +174,15 @@ Please build it first:  $0 build"
   set +e
   # Create the volume if it doesn't exist (idempotent)
   docker volume create "$VOLUME_NAME" >/dev/null
-  docker run -it -p11434:11434 --rm -v "$VOLUME_NAME":/root/.ollama "$(image_ref)"
+  docker run -it -p11434:11434 --rm -v "$VOLUME_NAME":/root/.ollama \
+        --device=/dev/dri:/dev/dri \
+        --device=/dev/accel/accel0 \
+        "$(image_ref)"
+# for non-root add
+#        --group-add="$(stat -c '%g' /dev/dri/render* | head -n1)" \
+#        --group-add="$(stat -c '%g' /dev/accel/accel0)" \
+#        -u "$(id -u):$(id -g)" \
+
   local rc=$?
   set -e
   if [[ $rc -ne 0 ]]; then
@@ -213,4 +221,3 @@ main() {
 }
 
 main "$@"
-
