@@ -212,8 +212,6 @@ You can change this either by passing `--device` to `get_model.sh`:
 
 …or by editing the generated `Modelfile` before you import the model.
 
-> Note: Using GPU/NPU inside Docker requires appropriate drivers on the host and (optionally) passing the relevant devices into the container. The included `docker.sh run` uses CPU by default. If you intend to use GPU/NPU, adapt the run command to include your device mappings.
-
 ---
 
 ## Verifying the setup
