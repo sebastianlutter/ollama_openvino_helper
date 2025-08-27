@@ -55,12 +55,6 @@ need_cmd() { command -v "$1" >/dev/null 2>&1 || { echo "Missing required command
 need_cmd python3
 need_cmd tar
 
-# Try to source OpenVINO env if present (harmless if absent)
-if [[ -f "/opt/intel/openvino/setupvars.sh" ]]; then
-  # shellcheck disable=SC1091
-  source /opt/intel/openvino/setupvars.sh || true
-fi
-
 # ---- venv setup ----
 if [[ -d "$VENV_DIR" && -f "$VENV_DIR/bin/activate" ]]; then
   echo "Using existing venv: $VENV_DIR"
@@ -142,4 +136,3 @@ echo
 echo "Next steps (inside your OpenVINO-Ollama container):"
 echo "  ollama create $ALIAS -f $MODELFILE"
 echo "  ollama run $ALIAS -p 'Hello, OpenVINO!'"
-
