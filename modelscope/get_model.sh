@@ -128,11 +128,10 @@ EOF
 
 # ---- summary ----
 echo
-echo "✅ Done."
+echo "Done."
 echo "• Downloaded to:     $MODEL_DIR"
 echo "• Tarball created:   $TAR_NAME"
 echo "• Modelfile written: $MODELFILE"
 echo
-echo "Next steps (inside your OpenVINO-Ollama container):"
-echo "  ollama create $ALIAS -f $MODELFILE"
-echo "  ollama run $ALIAS -p 'Hello, OpenVINO!'"
+echo "Next step to load it into running ollama docker:"
+echo "./use_model_in_docker.sh $TAR_NAME"

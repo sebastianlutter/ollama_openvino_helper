@@ -4,7 +4,7 @@ set -Eeuo pipefail
 usage() {
   cat <<'USAGE'
 Usage:
-  ./import_ov_model_into_container.sh /path/to/model.tar.gz [--container NAME_OR_ID] [--alias NAME] [--dest DIR] [--run]
+  ./use_model_in_docker.sh /path/to/model.tar.gz [--container NAME_OR_ID] [--alias NAME] [--dest DIR] [--run]
 
 Notes:
   - The Modelfile must sit next to the .tar.gz (same directory, named "Modelfile").
@@ -12,8 +12,8 @@ Notes:
   - If --alias is omitted, it is derived from the tar filename (lowercased, stripped of ".tar.gz").
 
 Examples:
-  ./import_ov_model_into_container.sh ./Qwen3-8B-int4-sym-ov-npu.tar.gz --container kind_kalam --alias qwen3-8b-ov-npu
-  ./import_ov_model_into_container.sh ./Qwen3-8B-int4-sym-ov-npu.tar.gz --run
+  ./use_model_in_docker.sh ./Qwen3-8B-int4-sym-ov-npu.tar.gz --container kind_kalam --alias qwen3-8b-ov-npu
+  ./use_model_in_docker.sh ./Qwen3-8B-int4-sym-ov-npu.tar.gz --run
 USAGE
 }
 
